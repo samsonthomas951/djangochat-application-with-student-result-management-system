@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %} Dashboard | {% endblock%}
+
+{% block content %}
+{% if request.user.is_superuser %}
+<div class="p-10 lg:p-20 text-center">
+    <h1 class="text-3xl lg:text-6xl text-white">The Dashboard Panel</h1>
+</div>
+<br><br>
+    <div class="w-full flex flex-wrap items-center">
+        <div class="w-full lg:w-1/4 px-3 py-3">
+            <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" href="{% url 'students:student_list' %}">
+                <span class="number counter">{{ students }}</span>
+                <span class="name">students enrolled</span>
+            </a>
+        </div>
+
+    
+        <div class="w-full lg:w-1/4 px-3 py-3">
+            <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" href="{% url 'subjects:subject_list' %}">
+                <span class="number counter">{{ subjects }}</span>
+                <span class="name">Subjects Listed</span>
+            </a>
+        </div>
+
+    
+        <div class="w-full lg:w-1/4 px-3 py-3">
+            <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" href="{% url 'student_classes:class_list' %}">
+                <span class="number counter">{{ cls }}</span>
+                <span class="name">Total classes listed</span>
+            </a>
+        </div>
+
+    
+        <div class="w-full lg:w-1/4 px-3 py-3">
+            <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" href="{% url 'results:result_list' %}">
+                <span class="number counter">{{ results }}</span>
+                <span class="name">Results Declared</span>
+            </a>
+        </div>
+
+    
+    </div>
+{% else %}
+<div class="p-10 lg:p-20 text-center">
+    <h1 class="text-3xl lg:text-6xl text-white">Page not available</h1>
+</div>
+{% endif %} 
+{% endblock %}
+
+{% block script %}
+<script>
+    $(function () {
+        $('.counter').counterUp({
+            delay: 10,
+            time: 1000
+        });
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        toastr["success"]("Welcome to student Result Management System!");
+    });
+</script>
+{% endblock %}
+    

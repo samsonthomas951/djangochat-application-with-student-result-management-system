@@ -1,0 +1,93 @@
+{% extends 'core/base.html' %}
+{% block title %}Update form|{% endblock%}
+{% block content %}
+
+
+{{ main_page_title }}
+<li><a href="{% url 'results:result_list' %}">{{ panel_name }}</a></li>
+<li class="active">{{ panel_title }}</li>
+
+
+{% block panel %}
+
+<div class="panel-title">
+    <h5>{{ panel_title }}</h5>
+</div>
+<form class="lg:w-1/4 px-4 mx-auto" method="post" data-url="{{ request.build_absolute_uri | safe }}">
+    {%csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_input }}" class="text-white">{{ field.label_tag }}</label>
+        <div class="col-sm-10">
+            {{ field }}
+        </div>
+    </div>
+    {% endfor %}
+    <p id="pk" style="display:none">{{ pk }}</p>
+    <div class="ajax_load">
+            <label for="success" class="text-white">Subjects:</label>
+            <div class="" id="add_field">
+            </div>
+        <br>
+        <input type="submit" value="Save" name="save" class="px-5 py-2 rounded-xl text-white bg-teal-800 hover:bg-teal-700">
+    </div>
+</form>
+
+{% endblock panel %}
+
+{% endblock %}
+{% block scripts %}
+<script>
+$(document).ready(function(){
+    console.log("Document Ready")
+    var pk_value = $('#pk').text()
+    // Sending Primary Key and Setup Update Form
+    $.ajax({
+        method  :   'GET',
+        url     :   '/results/declare/setup/',
+        dataType:   'json',
+        data    :   {
+            'pk_value'   :   pk_value
+        },
+        success :   function(data){
+            dt = data.dt
+            size = Object.keys(dt).length/2
+            for (let i = 0; i < size; i++) {
+                html = '<div class="w-full mt-2 px-5 rounded-xl"><div class="col-sm-2"><label for="" class="text-white">' + dt['subject_'+i] + '</label></div ><div class=""><input type="hidden" class="w-full mt-2 px-5 rounded-xl" name="subject_' + i + '" value="' + dt['subject_' + i] + '"><input type="number" name="subject_' + i + '_mark" class="w-full mt-2 px-5 rounded-xl" value="'+dt['subject_'+i+'_mark']+'"></div></div>';
+                $('#add_field').append(html)
+            }
+        
+        },
+        error   :   function(error){
+            alert("Ooops!! error"+error)
+        }
+    })
+
+    // Sending Form Data for update form
+    var $myForm = $('.form-horizontal')
+    $myForm.submit(function (event) {
+        var $formData = $(this).serialize()
+        $.ajax({
+            method: "POST",
+            url: '/results/update/'+pk_value+'/',
+            data: $formData,
+            success: function () {
+                $myForm[0].reset()
+                 window.location('http://127.0.0.1:8000/results/update/' + pk_value + '/')
+            },
+            error: handleFormError,
+        })
+
+    })
+
+    function handleFormError(jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR)
+        console.log(textStatus)
+        console.log(errorThrown)
+    }
+})
+
+</script>
+
+
+{% endblock %}

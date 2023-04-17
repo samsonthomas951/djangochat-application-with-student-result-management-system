@@ -1,0 +1,83 @@
+{% extends 'core/base.html' %}
+{% block title %}Find results|{% endblock%}
+
+{% block content %}
+<div class="p-10 lg:p-20 text-center">
+    <h1 class="text-3xl lg:text-6xl text-white">Find Results</h1>
+</div>
+<div class="flex flex-wrap">
+    <div class="lg:w-1/2">
+        <form class="lg:w-1/2 px-4 mx-auto query-form" method="post"> {% csrf_token %}
+        <div class="md-5">
+            <label for="rollid" class="text-white">Addmission Number</label><br>
+            <input type="text" class="w-full mt-2 px-5 rounded-xl" id="rollid" placeholder="Enter your addmission number"
+                autocomplete="off" name="rollid">
+        </div>
+        <div class="form-group">
+            <label for="default" class="text-white">Class</label>
+            <select name="class" class="w-full mt-2 px-5 rounded-xl" id="default" required="required">
+                <option value="">Select Class</option>
+                
+                {% for cls in class %}
+                    <option value="{{ cls.id }}">{{ cls }}</option>
+                {% endfor %}
+                    
+            </select>
+        </div>
+
+
+        <div class="form-group mt-20">
+            <div class="">
+
+                <button type="submit" class="px-5 py-3 rounded-xl text-white bg-teal-800 hover:bg-teal-700">Search<span class="btn-label btn-label-right"><i
+                            class="fa fa-check"></i></span></button>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <!-- <a href=" url 'dashboard'">Back to Home</a> -->
+        </div>
+        </form>
+    </div>
+    <div class="lg:w-1/2">
+        {% if request.user.is_superuser %}
+            <a class="lg:w-1/2 text-3xl lg:text-6xl text-white" href="dashboard/">Manage classes</a>
+        {% else %}
+            <p class="lg:w-1/2 text-3xl lg:text-6xl text-white">Thank you for choosing us</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            console.log("Document Ready")
+            var myForm = $('.query-form')
+            myForm.submit(function(e){
+                e.preventDefault()
+                var $formData = $(this).serialize()
+                console.log($formData)
+               $.ajax({
+                    method: "POST",
+                    url: window.location.href,
+                    data: $formData,
+                    success: function (json) {
+                        $obj = JSON.parse(json.pk)
+                        console.log($obj)
+                        if ($obj == '0') {
+                            alert("No Result Found With This Roll No and Class Name\nTry valid one")
+                            window.location.reload()
+                        }else{
+                            window.location = 'http://127.0.0.1:8000/dashboard/find-result/' + $obj + '/result/'
+                        }
+                    },
+                    error: function(error){
+                        alert("Ooops !! Error")
+                    }
+                })
+            })
+        })
+    </script>
+{% endblock %}
+    

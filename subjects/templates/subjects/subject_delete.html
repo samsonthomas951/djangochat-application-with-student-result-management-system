@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Subject Delete|{% endblock%}
+
+{% endblock %}
+{% block content %}
+
+{{ main_page_title }}
+
+
+
+
+<li><a href="{% url 'subjects:subject_list' %}">{{ panel_name }}</a></li>
+<li class="active">{{ panel_title }}</li>
+
+
+
+
+<div class="col-md-8 col-md-offset-2">
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <h5>{{ panel_title }}</h5>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form method="post" class="form">{% csrf_token %}
+            <h2>Are you sure you want to delete subject combination "{{ object }}" info ?</h2>
+            <input type="submit" value="Confirm" class="btn btn-danger">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

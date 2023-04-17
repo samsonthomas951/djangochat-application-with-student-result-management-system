@@ -1,0 +1,93 @@
+{% extends 'core/base.html' %}
+{% block title %}Results form|{% endblock%}
+{% block content %}
+<li><a href="{% url 'results:result_list' %}">{{ panel_name }}</a></li>
+<li class="active">{{ panel_title }}</li>
+    <form action="." method="post" data-url="{{ request.build_absolute_uri | safe }}" class="lg:w-1/4 px-4 mx-auto">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="md-5">
+                <label for="{{ field.id_for_input }}" class="text-white">{{ field.label_tag }}</label>
+                <div class="w-full mt-2 px-5 rounded-xl">
+                    {{ field }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="ajax_load">
+            <div class="form-group">
+                <label for="success" class="col-sm-2 control-label text-white">Subjects:</label>
+                <div class="" id="add_field">
+                        <!--  --> 
+                </div>
+            </div>
+            <br>
+            <input type="submit" value="Save" name="save" class="px-5 py-2 rounded-xl text-white bg-teal-800 hover:bg-teal-700">
+        </div>
+    </form>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+    
+        $('.ajax_load').hide()
+        $("select#id_select_class").change(function () {
+            var $selectedClass = $(this).children("option:selected").text();
+            var $thisUrl = '/results/declare/validate/'
+
+            $.ajax({
+                method  :   'GET',
+                url: $thisUrl,
+                data: {
+                    'selectedClass':$selectedClass
+                },
+                dataType: 'json',
+                success: function(json){
+                    $('.ajax_load').show()
+                    var myObj = JSON.parse(json.subjects)
+                    $('#add_field').empty()
+                    var subjectName = myObj[0].fields.subject_name
+                    for (let i = 0; i < myObj.length; i++) {
+                        subjectName = myObj[i].fields.subject_name
+                        // code = '<label class="text-white">'+subjectName+'</label>'+'<input type="text" name="subject_'+i+'" class="w-full mt-2 px-5 rounded-xl ">'
+                        code = '<div class="w-full mt-2 px-5 rounded-xl"><div class=""><label for="" class="text-white">'+ subjectName +'</label></div><input type="hidden" class="" name="subject_'+i+'" value="' + subjectName +'"><input type="number" name="subject_' + i +'_mark" class="w-full mt-2 px-5 rounded-xl" placeholder="Enter' + subjectName + 'marks"></div>';
+
+                        $('#add_field').append(code)                    
+                    }
+                    
+                },
+                error: handleFormError,
+            })
+        });
+        
+
+        var $myForm = $('.form-horizontal')
+        $myForm.submit(function (event) {
+            event.preventDefault()
+            var $formData = $(this).serialize()
+            var $thisURL = $myForm.attr('data-url') || window.location.href 
+            $.ajax({
+                method: "POST",
+                url: $thisURL,
+                data: $formData,
+                success: function(){
+                    console.log("Successfully Send data")
+                    $myForm[0].reset()
+                    window.location.reload()
+                },
+                error: handleFormError,
+            })
+        
+        })
+
+        function handleFormError(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR)
+            console.log(textStatus)
+            console.log(errorThrown)
+        }
+    })
+</script>
+
+{% endblock %}

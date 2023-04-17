@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Subject form|{% endblock%}
+{% block content %}
+{{ main_page_title }}
+
+<form action="." method="post" class="lg:w-1/4 px-4 mx-auto">
+    {% csrf_token %}
+    {{form.as_p}}
+    <br>
+    <button class="px-5 py-3 rounded-xl text-white bg-teal-800 hover:bg-teal-700" type="submit">Submit</button>
+</form>
+
+{% endblock%}
+{% block script %}
+    
+{% endblock %}
+
+    

@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Post notes|{% endblock%}
+{% block content %}
+{{ main_page_title }}
+
+<form action="." method="post" class="lg:w-1/2 px-4 mx-auto" enctype="multipart/form-data">
+    <!-- {% if notes %}
+        <p>Notes for {{notes}} uploaded succefully</p>
+    {% endif %}     -->
+    {% csrf_token %}
+    <div class="md-5">
+        <label class="text-white">Notes title:</label>
+        <input type="text" name="notes_title" class="w-full mt-2 px-5 rounded-xl ">
+        <input type="file" id="upload" name="notes" multiple accept=".docx,.pdf,.xlsx,.xls,.jpg,.jpeg" hidden>
+        <label for="upload" class="uploadlable">
+            <span><i class="fa fa-cloud-upload"></i></span>
+            <center><p class="text-white">Click to upload</p></center>
+        </label>
+        <div id="filewraper">
+            <h3 class="uploaded">Uploaded Documents</h3>
+        </div>
+    <br>
+    <!-- form.as_p -->
+    <button class="px-5 py-3 rounded-xl text-white bg-teal-800 hover:bg-teal-700" type="submit">Submit</button>
+</form>
+
+{% endblock%}
+{% block scripts %}
+<script>
+        window.addEventListener("load",()=>{
+        const input = document.getElementById("upload");
+        const filewrapper = document.getElementById("filewraper");
+        input.addEventListener("change",(e)=>{
+            let fileName = e.target.files[0].name;
+            let filetype = e.target.value.split(".").pop();
+            fileshow(fileName,filetype);
+        })
+        const fileshow=(fileName,filetype)=>{
+            const showfileboxElem= document.createElement("div");
+            showfileboxElem.classList.add("showfilebox");
+            const leftElem = document.createElement("div");
+            leftElem.classList.add("left");
+            const fileTypeElem = document.createElement("span");
+            fileTypeElem.classList.add("filetype");
+            fileTypeElem.innerHTML=filetype;
+            leftElem.append(fileTypeElem);
+            const filetitleElem = document.createElement("h3");
+            filetitleElem.innerHTML=fileName;
+            showfileboxElem.append(leftElem);
+            leftElem.append(filetitleElem);
+            const rightElem = document.createElement("div");
+            rightElem.classList.add("right");
+            showfileboxElem.append(rightElem);
+            const crossElem = document.createElement("span");
+            crossElem.innerHTMl= "&#215;";
+            rightElem.append(crossElem);
+            filewrapper.append(showfileboxElem);
+            crossElem.addEventListener("click",()=>{
+            filewrapper.removeChild(showfileboxElem);
+        })
+    }
+})
+</script>
+{% endblock %}

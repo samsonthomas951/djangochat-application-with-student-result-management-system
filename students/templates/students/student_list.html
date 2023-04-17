@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% block title %}Subject delete|{% endblock%}
+{% block content %}
+{{ main_page_title }}
+
+
+<li><a href="{% url 'subjects:subject_list' %}">{{ panel_name }}</a></li>
+<li class="active">{{ panel_title }}</li>
+
+
+
+{{ panel_title }}
+
+
+{% for object in object_list %}
+<tr role="row" class="odd">
+    <td class="">{{ object.id }}</td>
+    <td>{{ object.student_name }}</td>
+    <td>{{ object.student_roll }}</td>
+    <td>{{ object.student_class }}</td>
+    <td>{{ object.student_reg }}</td>
+    <td>{{ object.student_date_of_birth }}</td>
+    <td>
+        <a href="{% url 'students:student_update' object.id %}" class="btn btn-primary"><i class="fa fa-edit" title="Edit Record"></i>
+        </a>
+        <a href="{% url 'students:student_delete' object.id %}" class="btn btn-danger"><i class="fa fa-trash" title="Delete Record"></i>
+        </a>
+
+    </td>
+</tr>
+{% endfor %}
+
+{% endblock %}
+
+{% block script %}
+<script>
+</script>
+{% endblock %}
