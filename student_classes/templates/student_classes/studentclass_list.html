@@ -1,28 +1,29 @@
 {% extends 'core/base.html' %}
 {% block title %}Student Class list|{% endblock%}
 {% block content %}
-{{ main_page_title }}
 
 
 
-<li><a href="{% url 'student_classes:class_list' %}">{{ panel_name }}</a></li>
-<li class="active">{{ panel_title }}</li>
-
-
-
-{{ panel_title }}
-
-
-
-
+<center>
+<table>
+    <thead>
+        <tr style="background-color: #ccc;">
+          <th style="border: 1px solid black;">ID</th>
+          <th style="border: 1px solid black;">CLASS NAME</th>
+          <th style="border: 1px solid black;">CLASS NAME IN NUMERIC</th>
+          <th style="border: 1px solid black;">SECTION</th>
+          <th style="border: 1px solid black;">CREATION DATE</th>
+          <th style="border: 1px solid black;">ACTION</th>
+        </tr>
+    </thead>
 {% for object in object_list %}
 <tr role="row" class="odd">
-    <td class="">{{ object.id }}</td>
-    <td>{{ object.class_name }}</td>
-    <td class="sorting_1">{{ object.class_name_in_numeric }}</td>
-    <td>{{ object.section }}</td>
-    <td>{{ object.creation_date }}</td>
-    <td>
+    <td style="border: 1px solid black;">{{ object.id }}</td>
+    <td style="border: 1px solid black;">{{ object.class_name }}</td>
+    <td style="border: 1px solid black;">{{ object.class_name_in_numeric }}</td>
+    <td style="border: 1px solid black;">{{ object.section }}</td>
+    <td style="border: 1px solid black;">{{ object.creation_date }}</td>
+    <td style="border: 1px solid black;">
         <a href="{% url 'student_classes:update_class' object.id %}" class="btn btn-primary"><i class="fa fa-edit" title="Edit Record"></i>
         </a>
         <a href="{% url 'student_classes:delete_class' object.id %}" class="btn btn-danger"><i class="fa fa-trash" title="Delete Record"></i>
@@ -31,7 +32,8 @@
     </td>
 </tr>
 {% endfor %}
-
+</table>
+</center>
 
 
 {% endblock %}

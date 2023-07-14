@@ -20,13 +20,18 @@ def StudentCreateView(request):
         form = StudentForm()
     return render(request,'students/student_form.html',{'form':form,})
 
-def StudentListView(request):
-    object_list = Student.objects.all().values()
-    template = loader.get_template('students/student_list.html')
-    context = {
-        'object_list': object_list,
-    }
-    return HttpResponse(template.render(context, request))    
+class StudentListView(LoginRequiredMixin, ListView):
+    model = Student
+    field_list = [
+        'Student Name', 'Roll No', 'Class', 'Reg Date', 'Date of birth'
+    ]
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['main_page_title'] = 'Manage Students'
+        context['panel_name']   =   'Students'
+        context['panel_title']  =   'View Students Info'
+        context['field_list']   =   self.field_list
+        return context   
 
 
 class StudentUpdateView(LoginRequiredMixin, UpdateView):

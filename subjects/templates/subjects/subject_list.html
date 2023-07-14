@@ -1,25 +1,25 @@
 {% extends 'core/base.html' %}
-
-
-{% block title %}Subject List|{% endblock%}
 {% block content%}
-<li><a href="{% url 'subjects:subject_list' %}">{{ panel_name }}</a></li>
-<li class="active">{{ panel_title }}</li>
-
-
-
-{{ panel_title }}
-
-
-
+<center>
+<table>
+    <thead>
+        <tr style="background-color: #ccc;">
+          <th style="border: 1px solid black;">ID</th>
+          <th style="border: 1px solid black;">SUBJECT NAME</th>
+          <th style="border: 1px solid black;">SUBJECT CODE</th>
+          <th style="border: 1px solid black;">CREATION DATE</th>
+          <th style="border: 1px solid black;">UPDATE DATE</th>
+          <th style="border: 1px solid black;">ACTION</th>
+        </tr>
+    </thead>
 {% for object in object_list %}
-<tr role="row" class="odd">
-    <td class="">{{ object.id }}</td>
-    <td>{{ object.subject_name }}</td>
-    <td>{{ object.subject_code }}</td>
-    <td>{{ object.subject_creation_date }}</td>
-    <td>{{ object.subject_update_date }}</td>
-    <td>
+<tr>
+    <td style="border: 1px solid black;">{{ object.id }}</td>
+    <td style="border: 1px solid black;">{{ object.subject_name }}</td>
+    <td style="border: 1px solid black;">{{ object.subject_code }}</td>
+    <td style="border: 1px solid black;">{{ object.subject_creation_date }}</td>
+    <td style="border: 1px solid black;">{{ object.subject_update_date }}</td>
+    <td style="border: 1px solid black;">
         <a href="{% url 'subjects:update_subject' object.id %}" class="btn btn-primary"><i class="fa fa-edit" title="Edit Record"></i>
         </a>
         <a href="{% url 'subjects:delete_subject' object.id %}" class="btn btn-danger"><i class="fa fa-trash" title="Delete Record"></i>
@@ -27,14 +27,14 @@
 
     </td>
 </tr>
-{% endfor %}
 
+{% endfor %}
+</table>
+</center>
 
 {% endblock %}
 {% block script %}
 <script>
    
 </script>
-{% endblock %}
-{% block bootstrap_scripts %}
 {% endblock %}

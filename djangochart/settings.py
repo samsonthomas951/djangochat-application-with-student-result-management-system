@@ -137,7 +137,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = '/media/'
-LOGOUT_REDIRECT_URL = 'rooms'
+#LOGOUT_REDIRECT_URL = 'rooms'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 STATICFILES_DIRS  = (
     os.path.join(BASE_DIR,'static'),
@@ -153,4 +153,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jumasam236@gmail.com'
-EMAIL_HOST_PASSWORD = 's1/a2*m3+'
+EMAIL_HOST_PASSWORD = 'rjgscnnsqnzoglwb'

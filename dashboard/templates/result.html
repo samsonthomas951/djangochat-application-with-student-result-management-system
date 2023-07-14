@@ -1,52 +1,99 @@
-{% extends 'core/base.html' %}
-{% block title %}Results|{% endblock%}
+<style>
+    /* Set background color */
+    body {
+        background-color: #f8f9fa;
+    }
 
-{% block content %}
-    <div class="container-fluid" class="bg-teal-600">
-        <div class="row text-center d-block">
-            <h2 class="text-primary bold pb-25"><a href="{% url 'dashboard:dashboard' %}">Student Result Management System</a></h2>
-        </div>
-        <h4 style="text-align:right"><a href="{% url 'dashboard:save_as_pdf' id=object.id %}" target="_blank">Save as PDF</a></h4>
-        <div class="container" id="marksheet">
-            <p>
-                <b>Student Name: </b>{{ object.select_student.student_name | safe }}
-            </p>
-            <p>
-                <b>Student Class: </b>{{ object.select_class.class_name }}( <b>{{ object.select_class.section | safe }}</b> )
-            </p>
-            <p>
-                <b>Student Roll: </b> {{ object.select_student.student_roll | safe }}
-            </p>
-            <h2 class="text-center text-primary">Result Sheet</h2>
-            
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Subject Name</th>
-                        <th scope="col">Mark</th>
-                    </tr>
-                </thead>
-                <tbody id="table-row">
-                    
-                    {% for mark in marks %}
-                        <tr>
-                            <td>{{ forloop.counter }}</td>
-                            
-                            {% for m in mark %}
-                                <td>{{ m }}</td>
-                            {% endfor %}
-                                
-                        </tr>
-                    {% endfor %}
-                        
-                </tbody>
-            </table>
-        </div>
+    /* Set font family and size for the entire page */
+    body, td, th, p, a {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+    }
+
+    /* Style the container */
+    .container-fluid {
+        padding-top: 25px;
+    }
+
+    /* Style the marksheet container */
+    #marksheet {
+        margin-top: 50px;
+        padding: 25px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Style the table */
+    table {
+        width: 100%;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    td, th {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+
+    /* Style the back to home link */
+    .link a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .link a:hover {
+        text-decoration: underline;
+    }
+    
+</style>
+
+<div class="container-fluid" style="background-color:white">
+    <div >
+        <img src="../../static/Screenshot.png" alt="">
+        <center><h2><a style="color: #007bff;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; border-radius: 2rem; font-size: larger;"href="{% url 'dashboard:dashboard' %}">Django Classroom</a></h2></center>
+    </div>
+    <h4 style="text-align:right"><a href="{% url 'dashboard:save_as_pdf' id=object.id %}" target="_blank">Save as PDF</a></h4>
+    <div class="container" id="marksheet">
+        <p>
+            <b>Student Name     : </b>  {{ object.select_student.student_name | safe }}
+        </p>
+        <p>
+            <b>Student Class    : </b>  {{ object.select_class.class_name }}   ( <b>{{ object.select_class.section | safe }}</b> )
+        </p>
+        <p>
+            <b>Student Roll : </b> {{ object.select_student.student_roll | safe }}
+        </p>
+        <h2 class="text-center text-primary">Mark Sheet</h2>
         
-        <div class="shadow-lg p-3">
-            <span class="link"><a href="{% url 'dashboard:dashboard' %}">Back To Home</a></span>
-        </div>
-    </div>   
-{% endblock %}
-  
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Subject Name</th>
+                    <th scope="col">Mark</th>
+                </tr>
+            </thead>
+            <tbody id="table-row">
+                
+                {% for mark in marks %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        
+                        {% for m in mark %}
+                            <td>{{ m }}</td>
+                        {% endfor %}
+                            
+                    </tr>
+                {% endfor %}
+                    
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="shadow-lg p-3">
+        <span class="link"><a href="{% url 'dashboard:dashboard' %}">Back To Home</a></span>
+    </div>
+</div>

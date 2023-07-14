@@ -2,39 +2,38 @@
 {% block title %}Results list|{% endblock%}
 
 {% block content %}
-{{ main_page_title }}
-
-
-
-<li><a href="{% url 'results:result_list' %}">{{ panel_name }}</a></li>
-<li class="active">{{ panel_title }}</li>
-
-
-
-{{ panel_title }}
-
-
-
-{% for object in object_list %}
-
-<tr role="row" class="odd">
-    <td class="">{{ object.id }}</td>
-    <td class="">{{ object.student_name }}</td>
-    <td class="">{{ object.student_roll }}</td>
-    <td class="">{{ object.student_class }}</td>
-    <td class="">{{ object.student_reg }}</td>
-    <td class="">{{ object.marks.subject_0_mark }} | {{ object.marks.subject_1_mark }} | {{ object.marks.subject_2_mark }}</td>
-    <td>
-        <a href="{% url 'results:update_result' object.id %}" class="btn btn-primary"><i class="fa fa-edit" title="Edit Record"></i>
-        </a>
-        <a href="{% url 'results:delete_result' object.id %}" class="btn btn-danger"><i class="fa fa-trash" title="Delete Record"></i>
-        </a>
-
-    </td>
-</tr>
-
-{% endfor %}
-
+<center>
+<table style="border: 1px solid black;">
+    <thead>
+      <tr style="background-color: #ccc;">
+        <th style="border: 1px solid black;">ID</th>
+        <th style="border: 1px solid black;">NAME</th>
+        <th style="border: 1px solid black;">ROLL</th>
+        <th style="border: 1px solid black;">CLASS</th>
+        <th style="border: 1px solid black;">REG</th>
+        <th style="border: 1px solid black;">MARKS</th>
+        <th style="border: 1px solid black;">ACTION</th>
+      </tr>
+    </thead>
+    {% for object in object_list %}
+    <tr role="row" class="odd">
+        <td style="border: 1px solid black;">{{ object.id }}</td>
+        <td style="border: 1px solid black;">{{ object.select_student.student_name }}</td>
+        <td style="border: 1px solid black;">{{ object.select_student.student_roll }}</td>
+        <td style="border: 1px solid black;">{{ object.select_student.student_class }}</td>
+        <td style="border: 1px solid black;">{{ object.select_student.student_reg }}</td>
+        <td style="border: 1px solid black;">{{ object.marks.subject_0_mark }} | {{ object.marks.subject_1_mark }} | {{ object.marks.subject_2_mark }}</td>
+        <td>
+            <a href="{% url 'results:update_result' object.id %}" class="btn btn-primary"><i class="fa fa-edit" title="Edit Record"></i>
+            </a>
+            <a href="{% url 'results:delete_result' object.id %}" class="btn btn-danger"><i class="fa fa-trash" title="Delete Record"></i>
+            </a>
+    
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</center>
 {% endblock %}
 
 {% block scripts %}

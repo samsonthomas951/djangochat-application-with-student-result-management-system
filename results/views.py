@@ -75,7 +75,7 @@ def result_update_view(request, pk):
     context['pk'] = pk
     if request.method == "POST":
         all_data = request.POST
-        data = json.loads(json.dumps(all_data))
+        data = json.loads(json.dumps(all_data)) 
         data.pop('csrfmiddlewaretoken')
         pk = data['select_class']
         clas = StudentClass.objects.get(id=pk)
@@ -83,13 +83,16 @@ def result_update_view(request, pk):
         student = Student.objects.get(id=pk)
         data.pop('select_class')
         data.pop('select_student')
-        print('Modified Data = ', data)
         result.select_class = clas
         result.select_student = student
         result.marks = data
         result.save()
         return redirect('results:result_list')
     return render(request, "results/update_form.html", context)
+# def result_update_view(request,pk):    
+#     details = DeclareResult.objects.get(id=pk)
+#     form = DeclareResultForm(request.POST or None,instance=details)
+#     return render(request,'results/update_form.html',{'details':details,'form':form})    
 
 @login_required
 def result_delete_view(request, pk):
@@ -99,12 +102,16 @@ def result_delete_view(request, pk):
         return redirect('results:result_list')
     return render(request, "results/result_delete.html", {"object":obj})
 
-def DeclareResultListView(request):
-    objec_list = Student.objects.all().values()
-    object_list = DeclareResult.objects.all().values()
-    
-    template = loader.get_template('results/declareresult_list.html')
-    context = {
-        'object_list':object_list
-    }
-    return HttpResponse(template.render(context, request))
+class DeclareResultListView(LoginRequiredMixin, ListView):
+    model = DeclareResult
+
+    field_list = [
+        'Student Name', 'Roll No', 'Class', 'Reg Date', 'View Result'
+    ]
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['main_page_title'] = 'Manage Results'
+        context['panel_name']   =   'Results'
+        context['panel_title']  =   'View Results Info'
+        context['field_list']   =   self.field_list
+        return context

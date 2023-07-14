@@ -5,16 +5,18 @@ from .forms import StudentClassForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-def StudentClassCreateView(request):
+     
+class StudentClassCreateView(LoginRequiredMixin, CreateView):
+    model = StudentClass
+    form_class = StudentClassForm
+
     
-    if request.method=="POST":
-        form = StudentClassForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/')
-    else:
-        form=StudentClassForm()
-    return render(request,'student_classes/studentclass_form.html',{'form':form})        
+    def get_context_data(self, **kwargs):
+        context = super(StudentClassCreateView, self).get_context_data(**kwargs)
+        context['main_page_title'] = 'Add Student Class'
+        context['panel_name'] = 'Classes'
+        context['panel_title'] = 'Add Class'
+        return context  
 
 class StudentClassListView(LoginRequiredMixin, ListView):
     model = StudentClass
@@ -31,11 +33,15 @@ class StudentClassListView(LoginRequiredMixin, ListView):
         context['field_list']   =   self.field_list
         return context
 
-class StudentClassUpdateView(LoginRequiredMixin, UpdateView):
-    model = StudentClass
-    form_class = StudentClassForm
-    template_name_suffix = '_form'
-    success_url = reverse_lazy('student_classes:class_list')
+# class StudentClassUpdateView(LoginRequiredMixin, UpdateView):
+#     model = StudentClass
+#     form_class = StudentClassForm
+#     template_name_suffix = '_form'
+#     success_url = reverse_lazy('student_classes:class_list')
+def StudentClassUpdateView(request,pk):    
+    details = StudentClass.objects.get(id=pk)
+    form = StudentClassForm(request.POST or None,instance=details)
+    return render(request,'student_classes/studentclass_update.html',{'details':details,'form':form})    
 
 class StudentClassDeleteView(LoginRequiredMixin, DeleteView):
     model = StudentClass

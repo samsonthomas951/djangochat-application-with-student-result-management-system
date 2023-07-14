@@ -11,7 +11,7 @@
     {% csrf_token %}
     <div class="md-5">
         <label class="text-white">Notes title:</label>
-        <input type="text" name="notes_title" class="w-full mt-2 px-5 rounded-xl ">
+        <input type="text" name="notes_title" class="w-full mt-2 px-5 rounded-xl " autocomplete="off">
         <input type="file" id="upload" name="notes" multiple accept=".docx,.pdf,.xlsx,.xls,.jpg,.jpeg" hidden>
         <label for="upload" class="uploadlable">
             <span><i class="fa fa-cloud-upload"></i></span>

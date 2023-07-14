@@ -12,7 +12,7 @@
     <div class="w-full flex flex-wrap items-center">
         <div class="w-full lg:w-1/4 px-3 py-3">
             <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" href="{% url 'students:student_list' %}">
-                <span class="number counter">{{ students }}</span>
+                <span class="counter">{{ students }}</span>
                 <span class="name">students enrolled</span>
             </a>
         </div>
@@ -20,7 +20,7 @@
     
         <div class="w-full lg:w-1/4 px-3 py-3">
             <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" href="{% url 'subjects:subject_list' %}">
-                <span class="number counter">{{ subjects }}</span>
+                <span class="counter">{{ subjects }}</span>
                 <span class="name">Subjects Listed</span>
             </a>
         </div>
@@ -28,7 +28,7 @@
     
         <div class="w-full lg:w-1/4 px-3 py-3">
             <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" href="{% url 'student_classes:class_list' %}">
-                <span class="number counter">{{ cls }}</span>
+                <span class="counter">{{ cls }}</span>
                 <span class="name">Total classes listed</span>
             </a>
         </div>
@@ -36,7 +36,7 @@
     
         <div class="w-full lg:w-1/4 px-3 py-3">
             <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" href="{% url 'results:result_list' %}">
-                <span class="number counter">{{ results }}</span>
+                <span class="counter">{{ result }}</span>
                 <span class="name">Results Declared</span>
             </a>
         </div>

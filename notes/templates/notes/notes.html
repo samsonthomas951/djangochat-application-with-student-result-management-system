@@ -1,9 +1,43 @@
 {% extends 'core/base.html' %}
 
 {% block title %}Notes|{% endblock%}
+
 {% block content %}
-{% for note in Notes %}
-    <h3>{{note.notes_title}}</h3>
-    <p>{{note.notes}}</p>
+
+<div class="container-fluid text-center mt-2">
+    <div class="row align-items-start">
+      <div class="col">
+      </div>
+      <div class="col">
+      </div>
+      <div class="col">
+        <form class="d-flex ms-auto" role="search" method="post" action="{% url 'notes:search_notes' %}">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Search for notes.. " autocomplete="off" name="searched"aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+<div class="p-10 lg:p-20 text-center">
+    <h1 class="text-3xl lg:text-6xl text-white">Notes</h1>
+</div>
+
+<div class="grid grid-cols-3 gap-4">
+{% regroup Notes by notes_title as notes_groups %}
+
+{% for group in notes_groups %}
+    <div class="bg-white rounded-xl p-4">
+        <div class="px-5 py-3 rounded-xl" style="background-color: aquamarine;">
+            <h2 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: gray;">{{ group.grouper }}</h2>
+        </div>
+        <hr>
+        <ul class="list-group list-group-flush rounded-xl">
+        {% for note in group.list %}
+        <a download="{{note.notes}}" href="{{note.notes}}"><li class="list-group-item wrap">{{note.notes }}</li></a>
+        {% endfor %}
+        </ul>
+    </div>
 {% endfor %}
+</div>
 {% endblock %}

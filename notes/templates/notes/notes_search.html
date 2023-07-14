@@ -1,3 +1,26 @@
 {% extends 'core/base.html' %}
 
 {% block title %}Searched notes|{% endblock%}
+{% block content %}
+    {% if searched %}
+        <div class="p-6 lg:p-15 text-center">
+            <h1 class="text-1xl lg:text-3xl text-white">You searched for <b>{{searched}}</b></h1>
+        </div>
+        <div class="w-full flex flex-wrap items-center">
+        {% for notes in note %}
+            <div class="w-full lg:w-1/4 px-3 py-3">
+                <div class="p-4 bg-white shadow rounded-xl text-center">
+                    <h2 class="px-5 py-3 rounded-xl" style="background-color: aquamarine;color: gray;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{notes.notes_title}}</h2>
+                    <ul class="list-group list-group-flush rounded-xl">
+                    <a href='{{ notes.notes }}' class="px-5 py-3 rounded-xl">{{ notes.notes }}</a>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}    
+        <div class="p-6 lg:p-15 text-center">
+            <h1 class="text-1xl lg:text-3xl text-white">You did not enter a key value</h1>
+        </div>
+    {% endif %}
+{% endblock %}
